@@ -64,6 +64,10 @@
                         <label for="ffin">Fecha fin</label>
                         <input type="date" name="ffin" id="ffin" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label for="numero1fec">Número 1</label>
+                        <input type="number" name="numero1fec" id="numero1fec" class="form-control">
+                    </div>
                 </div>
         </form>
         <?php
@@ -87,7 +91,7 @@
                         WHERE cantidadnits >= $_POST[numero2] AND cantidadnits <= $_POST[numero1]
                         GROUP BY cedula, nombre
                         ORDER BY sum(valoralquiler) DESC";
-            } elseif ($_POST["busqueda"] && $_POST["finicio"] && $_POST["ffin"]) {
+            } elseif ($_POST["busqueda"] && $_POST["finicio"] && $_POST["ffin"] && $_POST["numero1fec"]) {
                 $query = "SELECT DISTINCT cedula, nombre, apellido, sexo, telefono, correo FROM cliente
                         JOIN paquete ON cedula = cedula_del_receptor
                         WHERE fecha_envio
