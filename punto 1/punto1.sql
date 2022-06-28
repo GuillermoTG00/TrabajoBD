@@ -53,17 +53,36 @@ CREATE TABLE paquete (
   noches NUMBER(2) NOT NULL,
   fecha_inicio_reservacion DATE NOT NULL,
   fecha_fin_reservacion DATE NOT NULL,
-  alimentacion CHAR(2) NOT NULL CHECK(alimentacion = 'si' OR alimentacion = 'no'),
+  alimentacion CHAR(2) NOT NULL CHECK(alimentacion = 'SI' OR alimentacion = 'NO'),
   nombre_aseguradora VARCHAR(30),
   cobertura_seguro VARCHAR(50),
   /* CLAVES FORANEAS */
   cedcliente NUMBER(10) NOT NULL REFERENCES cliente,
   codhotel NUMBER(10) NOT NULL REFERENCES hotel,
+  cod_paquete_interno NUMBER(10) REFERENCES paquete,
   /* NOTAS */
-  cod_paquete_interno NUMBER(10) REFERENCES paquete CHECK               /* TODO: CHECK PENDIENTE POR HACER */
-      (
-          (SELECT fecha_inicio_reservacion FROM paquete WHERE paquete.codigo = cod_paquete_interno)
-      )
+  UNIQUE(cedcliente, fecha_inicio_reservacion),
+  UNIQUE(cedcliente, fecha_fin_reservacion)
+  /* Las validaciones:
+
+     el viaje de ida del paquete 1 debe ser antes del viaje de ida del paquete 2
+     el viaje de vuelta del paquete 1 debe ser después del viaje de vuelta del paquete 2
+     fecha inicio reserva del paquete 1 debe ser antes de fecha inicio reserva del paquete 2
+     fecha fin reserva del paquete 1 debe ser después de fecha fin reserva del paquete 2
+
+     Además, debe controlarse que tanto paquete externo como paquete interno hayan sido adquiridos por el mismo cliente
+
+     debe controlarse que no exista otro paquete adquirido por el mismo cliente cuyas fechas de reservación se solapen,
+     es decir, sean paquete 1 y paquete 2 adquiridos por el mismo cliente:
+     fecha fin reservación de paquete 1 debe ser menor que fecha inicio reservación de paquete 2
+     o
+     fecha inicio reservación de paquete 1 debe ser mayor que fecha fin reservación de paquete 2
+
+     deben ser realizadas a través de código, no es posible realizarlas con una cláusula CHECK
+     dado que sería necesario realizar un SELECT dentro de la cláusula CHECK, y esto no es permitido o
+     no es posible.
+
+   */
 );
 
 /* ENTIDAD VIAJE */
@@ -85,9 +104,9 @@ CREATE TABLE viaje (
     /* ARCO */
     codcrucero NUMBER(10),
     habitacion_crucero NUMBER(3),
-    FOREIGN KEY(codcrucero, habitacion_crucero) REFERENCES crucero,
     codvuelo NUMBER(10),
     silla_vuelo VARCHAR(4),
+    FOREIGN KEY(codcrucero, habitacion_crucero) REFERENCES crucero,
     FOREIGN KEY(codvuelo, silla_vuelo) REFERENCES vuelo,
     CHECK(
         (codcrucero IS NOT NULL AND habitacion_crucero IS NOT NULL) AND (codvuelo IS NULL AND silla_vuelo IS NULL)
@@ -95,7 +114,8 @@ CREATE TABLE viaje (
         (codcrucero IS NULL AND habitacion_crucero IS NULL) AND (codvuelo IS NOT NULL AND silla_vuelo IS NOT NULL)
         ),
     /* NOTAS */
-    /* TODO hacer validacion de identificador alternativo compuesto */
+    UNIQUE(identificacion_pasajero, fecha_salida),
+    UNIQUE(identificacion_pasajero, fecha_llegada),
     CHECK(fecha_salida <= fecha_llegada)
 );
 
@@ -104,13 +124,16 @@ CREATE TABLE viaje (
 CREATE TABLE crucero (
     codigo NUMBER(10),
     habitacion NUMBER(3),
-    PRIMARY KEY(codigo, habitacion),
     nombre_operador VARCHAR(30) NOT NULL,
     puerto_origen VARCHAR(30) NOT NULL,
     puerto_destino VARCHAR(30) NOT NULL,
     tiquete VARCHAR(50) NOT NULL,
-    /* NOTAS */
-    /* TODO */
+    PRIMARY KEY(codigo, habitacion)
+    /* La validación: cada crucero esté vinculado únicamente a un operador, puerto origen y puerto destino
+       debe ser realizada a través de código, no es posible realizarla con una cláusula CHECK
+       dado que sería necesario realizar un SELECT dentro de la cláusula CHECK, y esto no es permitido o
+       no es posible. */
+
 );
 
 /* ENTIDAD VUELO */
@@ -118,13 +141,14 @@ CREATE TABLE crucero (
 CREATE TABLE vuelo (
     codigo NUMBER(10),
     silla VARCHAR(4),
-    PRIMARY KEY(codigo, silla),
     nombre_aerolinea VARCHAR(30) NOT NULL,
     aeropuerto_origen VARCHAR(30) NOT NULL,
     aeropuerto_destino VARCHAR(30) NOT NULL,
     tiquete VARCHAR(50) NOT NULL,
-    /* NOTAS */
-    /* TODO */
+    PRIMARY KEY(codigo, silla)
+    /* La validación: se debe controlar que cada vuelo esté vinculado únicamente a una aerolinea, aeropuerto origen y aeropuerto destino.
+       debe ser realizada a través de código, no es posible realizarla con una cláusula CHECK dado que sería necesario realizar un SELECT
+       dentro de la cláusula CHECK, y esto no es permitido o no es posible. */
 );
 
 /* ENTIDAD HOTEL */
@@ -138,7 +162,7 @@ CREATE TABLE hotel (
     codpais NUMBER(10) NOT NULL REFERENCES pais,
     codciudad NUMBER(10) NOT NULL REFERENCES ciudad,
     /* NOTAS */
-    /* TODO hacer validacion de identificador alternativo compuesto */
+    UNIQUE(codciudad, codpais, direccion)
 );
 
 /* ENTIDAD PAIS */
