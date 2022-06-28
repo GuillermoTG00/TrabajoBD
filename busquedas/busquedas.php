@@ -77,13 +77,12 @@
                     "CONSULTA 1" => "SELECT cedula, nombre
                                     FROM alquiler
                                     JOIN cliente ON cedula = cedulacliente
-                                    GROUP BY cedula, nombre 
-                                    HAVING SUM(valoralquiler) > 1000 AND COUNT(cedulacliente) >= 3 AND COUNT(CASE WHEN nitempresa <> 0 THEN 1 END) = 0 ",
-                    "CONSULTA 2" => "SELECT codigo, valoralquiler
-                                    FROM cliente JOIN alquiler ON cedula = cedulacliente
-                                    GROUP BY cedula, nombre, extract(month FROM fechacompraalquiler)
-                                    HAVING valoralquiler > presupuesto AND cedulacliente = (SELECT cedgerente FROM empresa WHERE nit = nitempresa)
-                                    ORDER BY cedula, nombre"
+                                    GROUP BY cedula, nombre
+                                    HAVING SUM(valoralquiler) > 1000 AND COUNT(cedulacliente) >= 3 AND COUNT(NULLIF(nitempresa, 0)) = 0",
+                    "CONSULTA 2" => "SELECT codigo, valoralquiler AS valorAlquiler
+                                    FROM alquiler
+                                    JOIN empresa ON nit = nitempresa
+                                    WHERE valorAlquiler > presupuesto AND cedulacliente = cedgerente"
                 ][$_POST["consulta"]];
             } elseif ($_POST["busqueda"] && $_POST["numero1"] && $_POST["numero2"]) {
                 $query = "SELECT cedula, nombre, COUNT(nitempresa) AS cantidadnits FROM alquiler
