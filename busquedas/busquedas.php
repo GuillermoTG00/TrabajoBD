@@ -74,11 +74,7 @@
         if ($_POST) {
             if (isset($_POST["consulta"])) {
                 $query = [
-<<<<<<< HEAD
-                    "CONSULTA 1" => "SELECT cedula, nombre, SUM(valoralquiler) AS sumavalor, COUNT(cedulacliente) AS proyectosRevisados, COUNT(nitempresa) AS empresaGerencia 
-=======
                     "CONSULTA 1" => "SELECT cedula, nombre
->>>>>>> 08ca934123f449c28f977e292f9099231bf3abff
                                     FROM alquiler
                                     JOIN cliente ON cedula = cedulacliente
                                     GROUP BY cedula, nombre 
