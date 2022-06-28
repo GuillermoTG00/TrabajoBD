@@ -70,7 +70,7 @@
         if ($_POST) {
             if (isset($_POST["consulta"])) {
                 $query = [
-                    "CONSULTA 1" => "SELECT cedula, nombre, SUM(valoralquiler) AS sumavalor FROM alquiler
+                    "CONSULTA 1" => "SELECT cedula, nombre, SUM(valoralquiler) AS sumavalor, COUNT(cedulacliente) AS proyectosRevisados FROM alquiler
                                     JOIN cliente ON cedula = cedulacliente
                                     GROUP BY cedula, nombre
                                     ORDER BY sum(valoralquiler) DESC
