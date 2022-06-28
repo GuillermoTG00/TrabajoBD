@@ -17,7 +17,8 @@ CREATE TABLE cliente (
 CREATE TABLE empresa (
     nit              INT(10) PRIMARY KEY,
     nombre           VARCHAR(40) NOT NULL,
-    presupuesto      INT(50) NOT NULL
+    presupuesto      INT(50) NOT NULL,
+    cedgerente       INT(10) REFERENCES cliente(cedula)
 );
 
 CREATE TABLE alquiler (
