@@ -69,10 +69,7 @@
                     "CONSULTA 1" => "SELECT cedula, nombre FROM alquiler
                                     JOIN cliente ON cedula = cedulacliente
                                     GROUP BY cedula, nombre
-                                    WHERE cedulacliente IS NOT NULL AND 
-                                    SUM(valoralquiler) > 1000 AND
-                                    COUNT(cedulacliente) >= 3 AND
-                                    COUNT(nitempresa) = 0",
+                                    ORDER BY sum(valoralquiler) DESC",
                     "CONSULTA 2" => "SELECT cedula, nombre, count(*) AS paquetes, sum(peso) sumapeso, extract(month FROM fecha_envio) AS mes
                                     FROM cliente JOIN paquete ON cedula = cedula_del_receptor
                                     GROUP BY cedula, nombre, extract(month FROM fecha_envio)
