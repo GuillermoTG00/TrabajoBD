@@ -85,11 +85,10 @@
                                     WHERE valorAlquiler > presupuesto AND cedulacliente = cedgerente"
                 ][$_POST["consulta"]];
             } elseif ($_POST["busqueda"] && $_POST["numero1"] && $_POST["numero2"]) {
-                $query = "SELECT cedula, nombre, COUNT(nitempresa) AS cantidadnits FROM alquiler
-                        JOIN cliente ON cedula = cedulacliente}
-                        WHERE cantidadnits >= $_POST[numero2] AND cantidadnits <= $_POST[numero1]
-                        GROUP BY cedula, nombre
-                        ORDER BY sum(valoralquiler) DESC";
+                $query = "SELECT nit, nombre FROM alquiler
+                        JOIN empresa ON nit = nitempresa
+                        GROUP BY nitempresa, nombre
+                        HAVING COUNT(nitempresa) >= $_POST[numero1] AND COUNT(nitempresa) <= $_POST[numero2]";
             } elseif ($_POST["busqueda"] && $_POST["finicio"] && $_POST["ffin"] && $_POST["numero1fec"]) {
                 $query = "SELECT cedula, celular FROM cliente
                         JOIN alquiler ON cedula = cedulacliente
