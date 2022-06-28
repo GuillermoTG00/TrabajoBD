@@ -91,10 +91,11 @@
                         GROUP BY cedula, nombre
                         ORDER BY sum(valoralquiler) DESC";
             } elseif ($_POST["busqueda"] && $_POST["finicio"] && $_POST["ffin"] && $_POST["numero1fec"]) {
-                $query = "SELECT DISTINCT cedula, nombre, apellido, sexo, telefono, correo FROM cliente
-                        JOIN paquete ON cedula = cedula_del_receptor
-                        WHERE fecha_envio
-                        NOT BETWEEN '$_POST[finicio]' AND '$_POST[ffin]'";
+                $query = "SELECT cedula, celular FROM cliente
+                        JOIN alquiler ON cedula = cedulacliente
+                        WHERE fechacompraalquiler BETWEEN '$_POST[finicio]' AND '$_POST[ffin]'
+                        GROUP BY cedulacliente, celular
+                        HAVING COUNT(cedulacliente) = '$_POST[numero1fec]'";
             } else {
                 $query = "SELECT 'Algo salió mal' AS error FROM dual";
             }
