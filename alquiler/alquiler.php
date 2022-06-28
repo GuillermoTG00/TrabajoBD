@@ -102,7 +102,6 @@
                     </thead>
                     <tbody>
                         <?php
-                        $date = consulta('SELECT DATE_FORMAT(fechacompraalquiler, "%d %M %Y") FROM alquiler');
                         $result = consulta('SELECT * FROM alquiler');
                         if($result){
                             foreach ($result as $fila){
@@ -111,7 +110,7 @@
                             <td><?=$fila['cedulacliente'];?></td>
                             <td><?=$fila['nitempresa'];?></td>
                             <td><?=$fila['codigo'];?></td>
-                            <td><?=$date['fechacompraalquiler'];?></td>
+                            <td><?=$fila['fechacompraalquiler'];?></td>
                             <td><?=$fila['valoralquiler'];?></td>
                             <td><?=$fila['direccion'];?></td>
                         </tr>
