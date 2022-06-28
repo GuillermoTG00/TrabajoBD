@@ -43,8 +43,12 @@
                         class="btn btn-primary"
                         value="BUSQUEDA 1">
                     <div class="form-group">
-                        <label for="numero">Número</label>
-                        <input type="number" name="numero" id="numero" class="form-control">
+                        <label for="numero1">Número 1</label>
+                        <input type="number" name="numero1" id="numero1" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="numero2">Número 2</label>
+                        <input type="number" name="numero2" id="numero2" class="form-control">
                     </div>
                 </div>                
                 <div>
@@ -81,7 +85,7 @@
                         JOIN cliente ON cedula = cedula_del_receptor
                         GROUP BY cedula, nombre
                         ORDER BY sum(peso) DESC
-                        LIMIT ".($_POST["numero"] - 1).", 1";
+                        LIMIT ".($_POST["numero"] - 1).", 1";            
             } elseif ($_POST["busqueda"] && $_POST["finicio"] && $_POST["ffin"]) {
                 $query = "SELECT DISTINCT cedula, nombre, apellido, sexo, telefono, correo FROM cliente
                         JOIN paquete ON cedula = cedula_del_receptor
