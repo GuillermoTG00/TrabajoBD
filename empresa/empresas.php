@@ -49,6 +49,10 @@
                                 <input type="number" name="presupuesto" id="presupuesto" class="form-control">
                             </div>
                             <div class="form-group">
+                                <label for="cedgerente">Cédula gerente</label>
+                                <input type="number" name="cedgerente" id="cedgerente" class="form-control">
+                            </div>
+                            <div class="form-group">
                                 <input type="submit" class="btn btn-primary" value="Insertar">
                             </div>
                         </form>
@@ -63,6 +67,7 @@
                             <th scope="col">NIT</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Presupuesto</th>
+                            <th scope="col">Cédula gerente</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,6 +80,7 @@
                             <td><?=$fila['nit'];?></td>
                             <td><?=$fila['nombre'];?></td>
                             <td><?=$fila['presupuesto'];?></td>
+                            <td><?=$fila['cedgerente'];?></td>
                         </tr>
                         <?php
                             }

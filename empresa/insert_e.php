@@ -1,7 +1,7 @@
 <?php
 require('../querybd.php');
 $query="INSERT INTO empresa
-	VALUES ('$_POST[nit]','$_POST[nombre]','$_POST[presupuesto]')";
+	VALUES ('$_POST[nit]','$_POST[nombre]','$_POST[presupuesto]','$_POST[cedgerente]')";
 $result = consulta($query);
 if($result) {
 	header ("Location: empresas.php");
