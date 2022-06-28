@@ -82,12 +82,11 @@
                                     GROUP BY cedula, nombre, extract(month FROM fecha_envio)
                                     ORDER BY cedula, nombre, mes"
                 ][$_POST["consulta"]];
-            } elseif ($_POST["busqueda"] && $_POST["numero"]) {
-                $query = "SELECT cedula, nombre FROM paquete
+            } elseif ($_POST["busqueda"] && $_POST["numero1"] && $_POST["numero2"]) {
+                $query = "SELECT cedula, nombre, COUNT(nitempresa) AS cantidadnits FROM paquete
                         JOIN cliente ON cedula = cedula_del_receptor
                         GROUP BY cedula, nombre
-                        ORDER BY sum(peso) DESC
-                        LIMIT ".($_POST["numero"] - 1).", 1";            
+                        ORDER BY sum(peso) DESC";            
             } elseif ($_POST["busqueda"] && $_POST["finicio"] && $_POST["ffin"]) {
                 $query = "SELECT DISTINCT cedula, nombre, apellido, sexo, telefono, correo FROM cliente
                         JOIN paquete ON cedula = cedula_del_receptor
