@@ -81,10 +81,11 @@
                                     ORDER BY cedula, nombre, mes"
                 ][$_POST["consulta"]];
             } elseif ($_POST["busqueda"] && $_POST["numero1"] && $_POST["numero2"]) {
-                $query = "SELECT cedula, nombre, COUNT(nitempresa) AS cantidadnits FROM paquete
-                        JOIN cliente ON cedula = cedula_del_receptor
+                $query = "SELECT cedula, nombre, COUNT(nitempresa) AS cantidadnits FROM alquiler
+                        JOIN cliente ON cedula = cedulacliente}
+                        WHERE cantidadnits >= $_POST[numero2] AND cantidadnits <= $_POST[numero1]
                         GROUP BY cedula, nombre
-                        ORDER BY sum(peso) DESC";            
+                        ORDER BY sum(valoralquiler) DESC";            
             } elseif ($_POST["busqueda"] && $_POST["finicio"] && $_POST["ffin"]) {
                 $query = "SELECT DISTINCT cedula, nombre, apellido, sexo, telefono, correo FROM cliente
                         JOIN paquete ON cedula = cedula_del_receptor
