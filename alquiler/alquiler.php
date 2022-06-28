@@ -110,7 +110,7 @@
                             <td><?=$fila['cedulacliente'];?></td>
                             <td><?=$fila['nitempresa'];?></td>
                             <td><?=$fila['codigo'];?></td>
-                            <td><?=$fila['fechacompraalquiler'];?></td>
+                            <td><?=date('d/m/Y',strtotime($fila['fechacompraalquiler']));?></td>
                             <td><?=$fila['valoralquiler'];?></td>
                             <td><?=$fila['direccion'];?></td>
                         </tr>
