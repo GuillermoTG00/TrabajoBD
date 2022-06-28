@@ -180,3 +180,27 @@ CREATE TABLE ciudad (
     /* CLAVES FORANEAS */
     codpais NUMBER(10) NOT NULL REFERENCES pais
 );
+
+/* ENTIDAD EMPRESA */
+
+CREATE TABLE empresa (
+    nit NUMBER(10) PRIMARY KEY,
+    nombre VARCHAR(30) NOT NULL,
+    presupuesto NUMBER(10) NOT NULL,
+    /* CLAVE FORANEA */
+    cedgerente NUMBER(10) REFERENCES cliente
+);
+
+/* ENTIDAD ALQUILER */
+
+CREATE TABLE alquiler (
+    codigo NUMBER(10) PRIMARY KEY,
+    fecha_compra_alquiler DATE NOT NULL,
+    valor_alquiler NUMBER(10) NOT NULL,
+    direccion VARCHAR(50) NOT NULL,
+    /* CLAVES FORANEAS */
+    nitempresa NUMBER(10) REFERENCES empresa,
+    cedgerente NUMBER(10) REFERENCES cliente
+    codpais NUMBER(10) NOT NULL REFERENCES pais,
+    codciudad NUMBER(10) NOT NULL REFERENCES ciudad
+);
