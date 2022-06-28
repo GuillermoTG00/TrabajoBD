@@ -70,13 +70,11 @@
         if ($_POST) {
             if (isset($_POST["consulta"])) {
                 $query = [
-                    "CONSULTA 1" => "SELECT cedula, nombre FROM 
-                                    (SELECT cedula, nombre, SUM(valoralquiler) AS sumavalor, COUNT(cedulacliente) AS proyectosRevisados, COUNT(nitempresa) AS empresaGerencia 
+                    "CONSULTA 1" => "SELECT cedula, nombre
                                     FROM alquiler
                                     JOIN cliente ON cedula = cedulacliente
-                                    GROUP BY cedula, nombre)
-                                    WHERE (sumavalor > 1000 AND proyectosRevisados >= 3 AND empresaGerencia = 0)
-                                    ORDER BY sumavalor DESC",
+                                    GROUP BY cedula, nombre 
+                                    HAVING SUM(valoralquiler) > 1000 AND COUNT(cedulacliente) >= 3 AND COUNT(CASE WHEN nitempresa <> 0 THEN 1 END) = 0 ",
                     "CONSULTA 2" => "SELECT cedula, nombre, count(*) AS paquetes, sum(peso) sumapeso, extract(month FROM fecha_envio) AS mes
                                     FROM cliente JOIN paquete ON cedula = cedula_del_receptor
                                     GROUP BY cedula, nombre, extract(month FROM fecha_envio)
