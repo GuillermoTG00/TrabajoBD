@@ -75,7 +75,7 @@
                                     FROM alquiler
                                     JOIN cliente ON cedula = cedulacliente
                                     GROUP BY cedula, nombre)
-                                    WHERE sumavalor > 1000 AND proyectosRevisados >= 3 AND empresaGerencia = 0
+                                    WHERE (sumavalor > 1000 AND proyectosRevisados >= 3 AND empresaGerencia = 0)
                                     ORDER BY sumavalor DESC",
                     "CONSULTA 2" => "SELECT cedula, nombre, count(*) AS paquetes, sum(peso) sumapeso, extract(month FROM fecha_envio) AS mes
                                     FROM cliente JOIN paquete ON cedula = cedula_del_receptor
