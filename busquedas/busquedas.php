@@ -18,7 +18,10 @@
             <a class="nav-link" href="../clientes/clientes.php">Clientes</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../paquetes/paquetes.php">Paquetes</a>
+            <a class="nav-link" href="../empresa/empresas.php">Empresas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="../alquiler/alquiler.php">Alquiler</a>
         </li>
         <li class="nav-pills">
             <a class="nav-link active" href="../busquedas/busquedas.php">Consultas y Busquedas</a>
