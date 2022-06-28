@@ -64,6 +64,10 @@
                         <label for="ffin">Fecha fin</label>
                         <input type="date" name="ffin" id="ffin" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label for="numero1fec">Número 1</label>
+                        <input type="number" name="numero1fec" id="numero1fec" class="form-control">
+                    </div>
                 </div>
         </form>
         <?php
@@ -82,12 +86,15 @@
                                     ORDER BY cedula, nombre"
                 ][$_POST["consulta"]];
             } elseif ($_POST["busqueda"] && $_POST["numero1"] && $_POST["numero2"]) {
-                $query = "SELECT cedula, nombre, COUNT(nitempresa) AS cantidadnits FROM alquiler
-                        JOIN cliente ON cedula = cedulacliente}
-                        WHERE cantidadnits >= $_POST[numero2] AND cantidadnits <= $_POST[numero1]
+                $testValue = "SELECT COUNT(nitempresa) FROM alquiler";
+                $query = "SELECT COUNT(nitempresa) FROM alquiler WHERE (SELECT COUNT(nitempresa) FROM alquiler)  >= $_POST[numero2]";
+                    /*"SELECT nit, nombre FROM alquiler
+                        JOIN empresa ON nit = nitempresa
+                        WHERE nit >= $_POST[numero2] AND nit <= $_POST[numero1]
                         GROUP BY cedula, nombre
-                        ORDER BY sum(valoralquiler) DESC";            
-            } elseif ($_POST["busqueda"] && $_POST["finicio"] && $_POST["ffin"]) {
+                        ORDER BY sum(valoralquiler) DESC";  
+                    */          
+            } elseif ($_POST["busqueda"] && $_POST["finicio"] && $_POST["ffin"] && $_POST["numero1fec"]) {
                 $query = "SELECT DISTINCT cedula, nombre, apellido, sexo, telefono, correo FROM cliente
                         JOIN paquete ON cedula = cedula_del_receptor
                         WHERE fecha_envio
